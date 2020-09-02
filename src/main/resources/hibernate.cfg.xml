@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="enable_lazy_load_no_trans">false</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://127.0.0.1:5432/freecostestimate</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password">postgres</property>
+        <property name="hibernate.hbm2ddl.auto">create-drop</property>
+        <property name="hibernate.id.new_generator_mappings">true</property>
+        <property name="hibernate.show_sql">true</property>
+
+        <mapping class="at.adridi.freecostestimate.model.CostCategory"/>
+        <mapping class="at.adridi.freecostestimate.model.CostEntity"/>
+        <mapping class="at.adridi.freecostestimate.model.CostEstimate"/>
+        <mapping class="at.adridi.freecostestimate.model.RatioDifficulty"/>
+
+    </session-factory>
+</hibernate-configuration>

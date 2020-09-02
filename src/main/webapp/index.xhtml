@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <h:head>
+        <title>Free Cost Estimate</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <h2>Create a Cost Estimate for Free!</h2>
+        <div>
+            <p:panel id="calculationForm">
+                <h:form>
+                    <p:commandButton value="Add New Line" actionListener="#{createCostEstimationController.addCostEntity()}" ajax="true" rendered="calculationForm"/>
+
+                    <p:panelGrid layout="grid" id="costEntityRows" columns="3">
+                        <h4>Cost Category</h4>
+                        <h4>Ratio</h4>
+                        <h4>Price</h4>
+
+                        <ui:repeat var="costEntityLine" value="#{createCostEstimationController.costEntitiesOfNewCostEstimate}" varStatus="costEntityIndex">
+                            <p:selectOneMenu value="#{costEntityLine.selectedCostCategory}"
+                                             filter="true" filterMatchMode="startsWith" panelStyle="width:250px" converter="costCategoryConverter" disabled="#{createCostEstimationController.calulcationDone}">
+                                <f:selectItems value="#{createCostEstimationController.defaultCostCategories}" var="costCategoryItem" itemLabel="#{costCategoryItem.title}" itemValue="#{costCategoryItem}" /> 
+                            </p:selectOneMenu>
+                            <p:selectOneMenu value="#{costEntityLine.selectedRatio}"
+                                             filter="true" filterMatchMode="startsWith" panelStyle="width:250px" converter="ratioDifficultyConverter" disabled="#{createCostEstimationController.calulcationDone}">
+                                <f:selectItems value="#{createCostEstimationController.defaultRatioDifficulties}" var="ratioDifficultyItem" itemLabel="#{ratioDifficultyItem.title}" itemValue="#{ratioDifficultyItem}"/>
+                                <f:ajax listener="#{createCostEstimationController.setRatioDifficulty(costEntityLine.selectedRatio, costEntityIndex)}" render="costEntityRows"/>
+                            </p:selectOneMenu>
+                            <h:outputLabel value="#{costEntityLine.centPrice/100}" />
+                        </ui:repeat>
+                    </p:panelGrid>
+                    <p:commandButton value="Create Cost Estimate" actionListener="#{createCostEstimationController.calculateCostEstimate()}" ajax="true" rendered="resultDisplay" style="background-color: green; color: white"/>
+                </h:form>
+            </p:panel>
+
+            <p:panel id="resultDisplay" rendered="#{createCostEstimationController.calulcationDone}">
+                <hr/>
+                <h:form>
+                    <p:panelGrid columns="2">
+                        <h4 style="font-weight: bold">Your Cost Estimate: </h4>
+                        <h:outputLabel style="font-weight: bold" value="#{createCostEstimationController.newCostEstimate.sumCent}"/>
+                    </p:panelGrid>
+
+                    <h3 style="margin-top: 10px">Send cost estimate to your email address: </h3>
+                    <p:panelGrid columns="2">
+                        <h4 style="font-weight: bold">Your Cost Estimate: </h4>
+                        <input value="#{createCostEstimationController.userEmail}" readonly="#{createCostEstimationController.costEstimateCreated}" />
+                        <p:commandButton value="Send Cost Estimate" actionListener="#{createCostEstimationController.createAndSendCostEstimate()}" ajax="true" rendered="resultDisplay"/>
+                    </p:panelGrid>
+                </h:form>
+            </p:panel>
+        </div>
+    </h:body>
+</html>

@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="at.adridi_FreeCostEstimate_war_1.0" verbose="10">
+    <!-- Running the test suite at once could take some time. -->
+    <groups>
+        <run>
+            <include name="AddDataTest"/>
+            <include name="DeleteDataTest"/>
+            <include name="UpdateDataTest"/>
+            <include name="NullDataTest"/>
+        </run>
+    </groups>
+    
+    <test name="CostCategory DAO Service">
+        <classes>
+            <class name="CostCategoryServiceImplNGTest"/>
+        </classes>
+    </test>
+    
+    <!--
+    <test name="CostEntity DAO Service - RUN THIS TEST ONLY SEPERATLY">
+        <classes>
+            <class name="CostEntityServiceImplNGTest"/>
+        </classes>
+    </test>
+    -->
+    
+    <test name="CostEstimate DAO Service">
+        <classes>
+            <class name="CostEstimateServiceImplNGTest"/>
+        </classes>
+    </test>
+
+    <test name="Null test DAOImpl DAO Class">
+        <classes>
+            <class name="DAOImplNullNGTest"/>
+        </classes>
+    </test>
+
+    <test name="RatioDifficultyServiceImplNGTest DAO Service">
+        <classes>
+            <class name="RatioDifficultyServiceImplNGTest"/>
+        </classes>
+    </test>
+
+</suite>
